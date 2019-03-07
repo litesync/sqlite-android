@@ -755,6 +755,8 @@ public final class SQLiteDatabase extends SQLiteClosable implements SupportSQLit
         deleted |= new File(file.getPath() + "-journal").delete();
         deleted |= new File(file.getPath() + "-shm").delete();
         deleted |= new File(file.getPath() + "-wal").delete();
+        deleted |= new File(file.getPath() + "-loc").delete();
+        deleted |= new File(file.getPath() + "-rem").delete();
 
         File dir = file.getParentFile();
         if (dir != null) {

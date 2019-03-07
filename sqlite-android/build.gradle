@@ -1,11 +1,6 @@
-plugins {
-    id 'de.undercouch.download' version '3.4.3'
-}
-
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
-apply plugin: 'de.undercouch.download'
 
 group = 'io.requery'
 version = '3.27.1'
@@ -56,7 +51,6 @@ publish.dependsOn "assembleRelease"
 bintrayUpload.dependsOn "assembleRelease"
 
 ext {
-    sqliteDistributionUrl = 'http://sqlite.org/2019/sqlite-amalgamation-3270100.zip'
     pomXml = {
         resolveStrategy = DELEGATE_FIRST
         name project.name
@@ -149,17 +143,4 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-task downloadSqlite(type: Download) {
-    src project.sqliteDistributionUrl
-    dest 'src/main/jni/sqlite.zip'
-}
-
-task installSqlite(dependsOn: downloadSqlite, type: Copy) {
-    from zipTree(downloadSqlite.dest).matching {
-        include '*/sqlite3.*'
-        eachFile { it.setPath(it.getName()) }
-    }
-    into 'src/main/jni/sqlite'
-}
-
-preBuild.dependsOn installSqlite
+// copy slite3.c and sqlite3.h to 'src/main/jni/sqlite'
